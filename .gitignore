@@ -1,6 +1,8 @@
 /data
 /checkpoints
 /wandb
+*.log
+*.out
 
 __pycache__/
 *.egg-info/

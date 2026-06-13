@@ -120,7 +120,8 @@ def save_checkpoint(
 
 def main():
     model_name = "ViT"
-    experiment_name = "vit_base_run1"
+    depth = 3
+    experiment_name = f"vit_base_run_d{depth}"
 
     epochs = 100
     batch_size = 128
@@ -163,7 +164,7 @@ def main():
     logger.info(f"Test samples: {len(test_loader.dataset)}")
 
     if model_name == "ViT":
-        model = ViT(img_size=(32, 32), patch_size=4, num_classes=10).to(device)
+        model = ViT(img_size=(32, 32), patch_size=4, num_classes=10, depth=depth).to(device)
     else:
         raise ValueError(f"Unsupported model: {model_name}")
 
