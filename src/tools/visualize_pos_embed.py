@@ -165,7 +165,7 @@ def visualize_position_similarity_grid(
 
 
 def main():
-    ckpt_path = "/home/liujiang/projects/dl/model_re/checkpoints/ViT/vit_base_run1/weights/model_latest.pth"
+    ckpt_path = "/home/liujiang/projects/dl/model_re/checkpoints/ViT/vit_base_run_d24/weights/model_latest.pth"
     save_path = os.path.join(
         os.path.dirname(os.path.dirname(ckpt_path)),
         "pos_embed_similarity_grid.png"

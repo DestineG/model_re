@@ -8,7 +8,7 @@ import torch.nn as nn
 import wandb
 
 from .data.dataset import get_data_loaders
-from .model import ViT
+from .model import (ViT, ResNet, resnet18, resnet34, resnet50, resnet101, resnet152)
 
 
 def setup_logger(log_path):
@@ -118,10 +118,11 @@ def save_checkpoint(
     torch.save(checkpoint, save_path)
 
 
+# nohup uv run python -m src.train > train.out 2>&1 &
 def main():
-    model_name = "ViT"
-    depth = 3
-    experiment_name = f"vit_base_run_d{depth}"
+    model_name = "ResNet"
+    depth = 152
+    experiment_name = f"{model_name.lower()}_base_run_d{depth}"
 
     epochs = 100
     batch_size = 128
@@ -153,7 +154,7 @@ def main():
     logger.info("=" * 80)
 
     run = wandb.init(
-        project=f"cv-research-project-{model_name.lower()}",
+        project=f"cv-research-project",
         name=experiment_name,
         config=config
     )
@@ -165,6 +166,12 @@ def main():
 
     if model_name == "ViT":
         model = ViT(img_size=(32, 32), patch_size=4, num_classes=10, depth=depth).to(device)
+    elif model_name == "ResNet":
+        if depth in [18, 34, 50, 101, 152]:
+            model = "resnet" + str(depth)
+            model = eval(model)(num_classes=10).to(device)
+        else:
+            raise ValueError(f"Unsupported ResNet depth: {depth}")
     else:
         raise ValueError(f"Unsupported model: {model_name}")
 
