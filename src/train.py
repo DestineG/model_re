@@ -249,7 +249,10 @@ def main():
             save_path=checkpoint_path
         )
 
-        remaining_seconds = (time.time() - start_time) / (current_epoch + 1) * (epochs - current_epoch)
+        elapsed_seconds = time.time() - start_time
+        avg_epoch_seconds = elapsed_seconds / current_epoch
+        remaining_seconds = avg_epoch_seconds * (epochs - current_epoch)
+        elapsed_str = str(datetime.timedelta(seconds=int(elapsed_seconds)))
         eta_str = str(datetime.timedelta(seconds=int(remaining_seconds)))
         logger.info(
             f"Epoch [{current_epoch}/{epochs}] "
@@ -259,6 +262,7 @@ def main():
             f"Test Acc: {test_acc:.4f} "
             f"Best Acc: {best_acc:.4f} "
             f"LR: {current_lr:.6f} | "
+            f"Elapsed: {elapsed_str} "
             f"ETA: {eta_str}"
         )
 
